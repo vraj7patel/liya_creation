@@ -1,0 +1,100 @@
+<!-- Premium Luxury Shop by Category -->
+<section class="luxury-shop-by-category">
+  <!-- Hero Section -->
+  <div class="category-hero">
+    <div class="hero-background">
+      <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1920&q=80" alt="Luxury Ethnic Wear" class="hero-image">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <span class="hero-tag">Curated Collection</span>
+      <h1 class="hero-title">Shop by Category</h1>
+      <p class="hero-subtitle">Discover our exclusive range of premium ethnic wear</p>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span>Explore</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- Categories Grid -->
+  <div class="categories-section">
+    <div class="section-header">
+      <span class="section-label">Discover</span>
+      <h2 class="section-title">Our Collections</h2>
+      <div class="title-underline"></div>
+    </div>
+
+    <div class="category-grid">
+      @for (category of visibleCategories(); track category._id; let i = $index) {
+        <article 
+          class="luxury-category-card"
+          [class.is-hovered]="isHovered() === category._id"
+          [class.is-active]="activeCategory === category._id"
+          [class.is-premium]="category.isPremium"
+          [class.featured]="i === 0"
+          (mouseenter)="onMouseEnter(category._id)"
+          (mouseleave)="onMouseLeave()"
+          (click)="onCategoryClick(category)"
+          (keydown)="onCategoryKeydown($event, category)"
+          role="button"
+          tabindex="0"
+          [attr.aria-label]="'Shop ' + category.name"
+        >
+          <div class="card-image">
+            <img [src]="getImageUrl(category.image)" [alt]="category.name" loading="lazy">
+            <div class="image-blur-overlay"></div>
+          </div>
+          <div class="card-gradient"></div>
+          <div class="card-content">
+            <div class="card-badges">
+              @if (category.isPremium) {
+                <span class="badge premium-badge"><i class="fas fa-gem"></i> Premium</span>
+              }
+              @if (i === 0) {
+                <span class="badge limited-badge"><i class="fas fa-clock"></i> Limited Edition</span>
+              }
+            </div>
+            <h3 class="card-title">{{ category.name }}</h3>
+            <p class="card-description">{{ getCategoryDescription(category.name) }}</p>
+            <span class="product-count">{{ category.productCount }} Pieces</span>
+            <span class="explore-btn">
+              <span>Explore Collection</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+          </div>
+          <div class="gold-border">
+            <div class="border-corner top-left"></div>
+            <div class="border-corner top-right"></div>
+            <div class="border-corner bottom-left"></div>
+            <div class="border-corner bottom-right"></div>
+          </div>
+          <div class="shimmer-overlay"></div>
+        </article>
+      }
+    </div>
+
+    <div class="view-all-section">
+      <a routerLink="/products" class="view-all-btn">
+        <span>View All Categories</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Featured Strip -->
+  <div class="featured-strip">
+    <div class="strip-content">
+      <span class="strip-label">New Arrivals</span>
+      <div class="strip-categories">
+        <span>Sarees</span>
+        <span class="separator">•</span>
+        <span>Lehengas</span>
+        <span class="separator">•</span>
+        <span>Gowns</span>
+        <span class="separator">•</span>
+        <span>Kurtis</span>
+      </div>
+    </div>
+  </div>
+</section>

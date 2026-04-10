@@ -1,0 +1,1 @@
+var e={production:!1,apiUrl:"/api",imageBaseUrl:"",googleClientId:"439834101237-m24a36usq7er2k8bh2lp0curfe2lgrpq.apps.googleusercontent.com",clerkPublishableKey:"pk_test_c291bmQtamF3ZmlzaC01NC5jbGVyay5hY2NvdW50cy5kZXYk"};export{e as a};
