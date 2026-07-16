@@ -1,1 +1,9 @@
 node_modules
+.env
+.env.test
+dist
+.angular/cache
+liya-frontend/dist
+liya-frontend/.angular
+uploads/products/*
+!uploads/products/.gitkeep

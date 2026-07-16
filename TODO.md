@@ -1,20 +1,20 @@
-# Checkout & Stripe Payment Integration TODO
+# Liya Creation Deployment TODO
 
-## Current Status: [Completed]
+## Backend (Render) ✅
+- [x] Create `liya-backend/render.yaml`
+- [x] Create `liya-backend/.env.example`
+- [x] Update `liya-backend/server.js` CORS for production
+- [ ] Test backend start
 
-### 1. [x] Frontend Updates (liya-frontend/src/app/checkout/pages/checkout/checkout.component.ts)
-   - [x] Remove UPI payment option
-   - [x] Modernize UI: Payment cards with icons, selected state highlight, fade-in animation
-   - [x] Add COD limit validation (₹5000 max) — frontend warning + submit guard
-   - [x] Use environment variable for Stripe PK key
+## Frontend (Vercel) ✅
+- [x] Create `liya-frontend/vercel.json`
+- [x] Update `liya-frontend/src/environments/environment.prod.ts` API URL
+- [ ] Test Angular build
 
-### 2. [x] Backend Updates (liya-backend/controllers/orderController.js)
-   - [x] COD max amount validation (₹5000) — already present, removed upi from paymentStatus logic
+## Documentation ✅
+- [x] Update `README.md` with deploy instructions
 
-### 3. [x] Environment Config
-   - [x] Added STRIPE_PK_KEY to liya-frontend/src/environments/environment.ts
-
-### 4. [x] Dependencies & Testing
-   - [x] Stripe package verified (stripe ^21.0.1 in backend, @stripe/stripe-js in frontend)
-   - [ ] Test COD flow (under/over limit)
-   - [ ] Test Stripe PaymentIntent + card payment
+## Deployment
+- [ ] Backend to Render
+- [ ] Frontend to Vercel
+- [ ] Test full stack

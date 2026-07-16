@@ -25,13 +25,16 @@ app.use(helmet({
 }));
 
 // CORS configuration - allow credentials for session-based auth
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : ['http://localhost:4200', 'http://localhost:3000', 'http://127.0.0.1:4200'];
+
 app.use(cors({
   origin: function(origin, callback) {
-    const allowed = ['http://localhost:4200', 'http://localhost:3000', 'http://127.0.0.1:4200'];
-    if (!origin || allowed.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(null, true); // allow all in dev
+      callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
@@ -88,10 +91,10 @@ app.use(session({
     serverSelectionTimeoutMS: 5000
   }),
   cookie: {
-    secure: false,
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
-    sameSite: 'lax'
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
   }
 }));
 
