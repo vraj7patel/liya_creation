@@ -23,39 +23,37 @@ module.exports = function(passport) {
     )
   );
 
-  // Google OAuth Strategy
-  passport.use(
-    new GoogleStrategy(
-      {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: `${process.env.API_URL}/api/auth/google/callback`
-      },
-      async (accessToken, refreshToken, profile, done) => {
-        try {
-          const email = profile.emails[0].value;
-          let user = await User.findOne({ email });
-
-          if (user) {
-            if (user.isBlocked) return done(null, false, { message: 'Your account has been blocked' });
+  // Google OAuth Strategy (only if credentials are set)
+  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    passport.use(
+      new GoogleStrategy(
+        {
+          clientID: process.env.GOOGLE_CLIENT_ID,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+          callbackURL: `${process.env.API_URL || ''}/api/auth/google/callback`
+        },
+        async (accessToken, refreshToken, profile, done) => {
+          try {
+            const email = profile.emails[0].value;
+            let user = await User.findOne({ email });
+            if (user) {
+              if (user.isBlocked) return done(null, false, { message: 'Your account has been blocked' });
+              return done(null, user);
+            }
+            user = await User.create({
+              name: profile.displayName,
+              email,
+              authProvider: 'google',
+              googleId: profile.id
+            });
             return done(null, user);
+          } catch (err) {
+            return done(err);
           }
-
-          // Create new user from Google profile
-          user = await User.create({
-            name: profile.displayName,
-            email,
-            authProvider: 'google',
-            googleId: profile.id
-          });
-
-          return done(null, user);
-        } catch (err) {
-          return done(err);
         }
-      }
-    )
-  );
+      )
+    );
+  }
 
   // Serialize user
   passport.serializeUser((user, done) => {
