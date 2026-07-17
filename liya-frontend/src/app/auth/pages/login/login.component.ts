@@ -203,7 +203,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle(): void {
-    window.location.href = 'http://localhost:3000/api/auth/google';
+    window.location.href = `${environment.apiUrl}/auth/google`;
   }
 
   onSubmit(): void {
