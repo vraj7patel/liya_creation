@@ -151,12 +151,45 @@ exports.login = async (req, res) => {
     req.session.userId = user._id;
     req.session.role = user.role;
 
+    const loginTime = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+    // Send welcome back email to user
+    transporter.sendMail({
+      from: `"Liya Creation" <${process.env.EMAIL_USER}>`,
+      to: user.email,
+      subject: '👋 Welcome Back to Liya Creation!',
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1)">
+          <div style="background:linear-gradient(135deg,#8B4513,#D4A574);padding:30px;text-align:center">
+            <h1 style="color:white;margin:0;font-size:28px">Liya Creation</h1>
+            <p style="color:rgba(255,255,255,0.9);margin:5px 0 0">Premium Women's Ethnic Wear</p>
+          </div>
+          <div style="padding:30px">
+            <h2 style="color:#8B4513">Welcome Back, ${user.name}! 🌸</h2>
+            <p style="color:#555;line-height:1.6">You have successfully logged in to your <strong>Liya Creation</strong> account.</p>
+            <div style="background:#f9f4f0;border-left:4px solid #8B4513;padding:15px;border-radius:4px;margin:20px 0">
+              <p style="margin:0;color:#555"><b>Login Details:</b></p>
+              <p style="margin:5px 0 0;color:#777">📧 Email: ${user.email}</p>
+              <p style="margin:5px 0 0;color:#777">🕐 Time: ${loginTime} (IST)</p>
+            </div>
+            <p style="color:#555;line-height:1.6">If this wasn't you, please change your password immediately.</p>
+            <div style="text-align:center;margin:25px 0">
+              <a href="${process.env.FRONTEND_URL}/products" style="background:#8B4513;color:white;padding:12px 30px;text-decoration:none;border-radius:25px;font-weight:bold;display:inline-block">Explore Collection ✨</a>
+            </div>
+          </div>
+          <div style="background:#f9f9f9;padding:15px;text-align:center;color:#aaa;font-size:12px">
+            © 2024 Liya Creation. All rights reserved.
+          </div>
+        </div>
+      `
+    }).catch(err => console.error('Login welcome email error:', err.message));
+
     // Send login notification to admin
     transporter.sendMail({
       from: `"Liya Creation" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
       subject: '🔔 User Logged In - Liya Creation',
-      html: `<p>User just logged in:</p><ul><li><b>Name:</b> ${user.name}</li><li><b>Email:</b> ${user.email}</li><li><b>Time:</b> ${new Date().toLocaleString('en-IN', {timeZone:'Asia/Kolkata'})}</li></ul>`
+      html: `<p>User just logged in:</p><ul><li><b>Name:</b> ${user.name}</li><li><b>Email:</b> ${user.email}</li><li><b>Time:</b> ${loginTime} (IST)</li></ul>`
     }).catch(err => console.error('Login notification error:', err.message));
 
     res.json({
