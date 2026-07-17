@@ -266,10 +266,10 @@ exports.createProduct = async (req, res) => {
       }
     }
 
-    // Handle uploaded files
+    // Handle uploaded files - Cloudinary returns full URL
     let productImages = [];
     if (req.files && req.files.length > 0) {
-      productImages = req.files.map(file => `/uploads/products/${file.filename}`);
+      productImages = req.files.map(file => file.path);
     }
 
     const productData = {
@@ -326,10 +326,10 @@ exports.updateProduct = async (req, res) => {
       });
     }
 
-    // Handle uploaded files
+    // Handle uploaded files - Cloudinary returns full URL
     let newImages = [];
     if (req.files && req.files.length > 0) {
-      newImages = req.files.map(file => `/uploads/products/${file.filename}`);
+      newImages = req.files.map(file => file.path);
     }
 
     // Combine existing images with new uploads
