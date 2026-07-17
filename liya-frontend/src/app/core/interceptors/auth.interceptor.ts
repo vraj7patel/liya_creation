@@ -8,17 +8,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // Skip auth for login/register endpoints
-  const skipAuthUrls = [
-    '/auth/login',
-    '/auth/register'
-  ];
-  
+  const skipAuthUrls = ['/auth/login', '/auth/register'];
   const shouldSkipAuth = skipAuthUrls.some(url => req.url.includes(url));
 
-  // Clone request with credentials enabled for session-based auth
+  // Add x-user-id header for cross-origin session fallback
+  const user = authService.currentUser();
+  const headers: Record<string, string> = {};
+  if (user?.id) headers['x-user-id'] = user.id;
+
   const modifiedReq = req.clone({
-    withCredentials: true
+    withCredentials: true,
+    setHeaders: headers
   });
 
   // For non-auth endpoints, check if user is authenticated

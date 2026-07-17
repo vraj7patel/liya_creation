@@ -3,8 +3,14 @@ const User = require('../models/User');
 // Check if user is authenticated (session-based only)
 const isAuthenticated = async (req, res, next) => {
   try {
-    // Check session for userId
-    if (!req.session || !req.session.userId) {
+    let userId = req.session?.userId;
+
+    // Fallback: check x-user-id header (for cross-origin session issues)
+    if (!userId && req.headers['x-user-id']) {
+      userId = req.headers['x-user-id'];
+    }
+
+    if (!userId) {
       return res.status(401).json({
         success: false,
         message: 'Please login to access this resource'
@@ -12,7 +18,7 @@ const isAuthenticated = async (req, res, next) => {
     }
 
     // Get user from database
-    const user = await User.findById(req.session.userId);
+    const user = await User.findById(userId);
 
     if (!user) {
       return res.status(401).json({
