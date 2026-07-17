@@ -796,6 +796,11 @@ a {
    Responsive Breakpoints — Mobile First
    -------------------------------------------------------------------------- */
 
+/* Default visibility (used by templates: .hide-mobile / .hide-desktop / .hide-tablet) */
+.hide-mobile { display: initial; }
+.hide-desktop { display: initial; }
+.hide-tablet { display: initial; }
+
 /* 320px — tiny phones (iPhone SE 1st gen) */
 @media (max-width: 320px) {
   :root {
