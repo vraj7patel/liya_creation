@@ -483,6 +483,12 @@ import { AuthService } from '../../../core/services/auth.service';
       .item-product { gap: var(--spacing-md); }
       .product-details h3 { font-size: var(--font-size-sm); }
       .summary-card { padding: var(--spacing-lg); }
+      .cart-item { padding: var(--spacing-md); }
+      .item-price .price, .item-total .total-price { font-size: var(--font-size-base); }
+    }
+    @media (max-width: 380px) {
+      .product-image { width: 64px; height: 80px; }
+      .product-details h3 { font-size: var(--font-size-xs); }
     }
   `]
 })

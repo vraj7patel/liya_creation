@@ -255,12 +255,16 @@ interface OrderItem {
     @media (max-width: 576px) {
       .checkout-page { padding: 24px 0 60px; }
       h1 { font-size: var(--font-size-2xl); margin-bottom: 20px; }
-      .checkout-form { padding: 20px; }
+      .checkout-form { padding: 16px; }
       .checkout-form .form-row { grid-template-columns: 1fr; gap: 0; }
-      .order-summary { padding: 20px; }
+      .order-summary { padding: 16px; }
       .btn-block { padding: 14px; font-size: var(--font-size-sm); }
       .checkout-form .form-group input,
       .checkout-form .form-group textarea { font-size: 16px; }
+      .shipping-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .autofill-btn { width: 100%; justify-content: center; }
+      .payment-option { padding: 12px; }
+      .option-icon { font-size: 20px; }
     }
   `]
 })

@@ -654,9 +654,12 @@ import { PremiumProductCardComponent, PremiumProduct } from '../../../shared/com
       .section-title { font-size: var(--font-size-2xl); }
       .promo-content h2 { font-size: var(--font-size-3xl); }
       .promo-content p { font-size: var(--font-size-sm); }
+      .trust-badges { padding: var(--spacing-lg) 0; }
     }
     @media (max-width: 380px) {
       .features-grid { grid-template-columns: 1fr; }
+      .badges-grid { grid-template-columns: 1fr; }
+      .badge { flex-direction: row; text-align: left; }
     }
   `]
 })

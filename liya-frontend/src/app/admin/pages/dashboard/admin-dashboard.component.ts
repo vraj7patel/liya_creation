@@ -1055,15 +1055,19 @@ interface LowStockProduct {
       }
 
       .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
       }
 
       .stat-card {
-        padding: 20px;
+        padding: 16px;
+        gap: 12px;
+        .stat-icon { width: 48px; height: 48px; font-size: 20px; }
+        .stat-content .stat-value { font-size: 22px; }
       }
 
       .action-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .orders-table {
@@ -1071,6 +1075,15 @@ interface LowStockProduct {
           padding: 12px;
         }
       }
+    }
+
+    @media (max-width: 480px) {
+      .admin-dashboard { padding: 12px; }
+      .stats-grid { grid-template-columns: 1fr; gap: 12px; }
+      .action-grid { grid-template-columns: 1fr; }
+      .stat-card { padding: 14px; }
+      .dashboard-header .header-content h1 { font-size: 20px; }
+      .last-updated { display: none !important; }
     }
   `]
 })
