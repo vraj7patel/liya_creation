@@ -60,16 +60,12 @@ export class ProductService {
   // Helper to get full image URL - uses relative path for proxy
   getImageUrl(imagePath: string): string {
     if (!imagePath) return '';
-    // If already a full URL (http:// or https://), return as-is
     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
       return imagePath;
     }
-    // Ensure path starts with / for the proxy to work
-    let normalizedPath = imagePath;
-    if (!normalizedPath.startsWith('/')) {
-      normalizedPath = '/' + normalizedPath;
-    }
-    return normalizedPath;
+    const base = environment.imageBaseUrl || '';
+    const path = imagePath.startsWith('/') ? imagePath : '/' + imagePath;
+    return base + path;
   }
 
   getProducts(filters?: {
