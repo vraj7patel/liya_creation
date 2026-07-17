@@ -39,6 +39,41 @@ exports.register = async (req, res) => {
     req.session.userId = user._id;
     req.session.role = user.role;
 
+    // Send welcome email to user
+    transporter.sendMail({
+      from: `"Liya Creation" <${process.env.EMAIL_USER}>`,
+      to: user.email,
+      subject: '🎉 Welcome to Liya Creation!',
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1)">
+          <div style="background:linear-gradient(135deg,#8B4513,#D4A574);padding:30px;text-align:center">
+            <h1 style="color:white;margin:0;font-size:28px">Liya Creation</h1>
+            <p style="color:rgba(255,255,255,0.9);margin:5px 0 0">Premium Women's Ethnic Wear</p>
+          </div>
+          <div style="padding:30px">
+            <h2 style="color:#8B4513">Welcome, ${user.name}! 🌸</h2>
+            <p style="color:#555;line-height:1.6">Thank you for joining <strong>Liya Creation</strong>. We're thrilled to have you as part of our family!</p>
+            <p style="color:#555;line-height:1.6">Explore our exclusive collection of Lehengas, Sarees, Gowns, and Kurtis crafted just for you.</p>
+            <div style="text-align:center;margin:25px 0">
+              <a href="${process.env.FRONTEND_URL}/products" style="background:#8B4513;color:white;padding:12px 30px;text-decoration:none;border-radius:25px;font-weight:bold;display:inline-block">Shop Now ✨</a>
+            </div>
+            <p style="color:#888;font-size:13px">If you have any questions, feel free to contact us.</p>
+          </div>
+          <div style="background:#f9f9f9;padding:15px;text-align:center;color:#aaa;font-size:12px">
+            © 2024 Liya Creation. All rights reserved.
+          </div>
+        </div>
+      `
+    }).catch(err => console.error('Welcome email error:', err.message));
+
+    // Send notification email to admin
+    transporter.sendMail({
+      from: `"Liya Creation" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
+      subject: '🆕 New User Registered - Liya Creation',
+      html: `<p>New user registered:</p><ul><li><b>Name:</b> ${user.name}</li><li><b>Email:</b> ${user.email}</li><li><b>Phone:</b> ${user.phone || 'N/A'}</li></ul>`
+    }).catch(err => console.error('Admin notification error:', err.message));
+
     res.status(201).json({
       success: true,
       message: 'Registration successful',
@@ -115,6 +150,14 @@ exports.login = async (req, res) => {
     // Create session (session-based auth - no JWT)
     req.session.userId = user._id;
     req.session.role = user.role;
+
+    // Send login notification to admin
+    transporter.sendMail({
+      from: `"Liya Creation" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
+      subject: '🔔 User Logged In - Liya Creation',
+      html: `<p>User just logged in:</p><ul><li><b>Name:</b> ${user.name}</li><li><b>Email:</b> ${user.email}</li><li><b>Time:</b> ${new Date().toLocaleString('en-IN', {timeZone:'Asia/Kolkata'})}</li></ul>`
+    }).catch(err => console.error('Login notification error:', err.message));
 
     res.json({
       success: true,
